@@ -1,0 +1,27 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myapp # Pod Name
+  namespace: example-5 # Namespace which Pod belong
+spec:
+  selector:
+    matchLabels:
+      app: myapp # match with the pod name
+  template:
+    metadata:
+      labels:
+        app: myapp  # same with 'matchLabels'
+    spec:
+      containers:
+      - name: myapp # container name
+        image: /myapp # container image
+        ports: # ports need to expose
+        - name: http
+          containerPort: 8080
+        resource:
+          requests:
+            memory: 128Mi
+            cpu: 100m
+          limits:
+            memory: 128Mi
+            cpu: 100m

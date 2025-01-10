@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp
+  namespace: example-4
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8080 # port that the service expose
+      targetPort: http # port which container is listening at
+  selector:
+    app: myapp # labels of pods with same value to the selector will belong to this service

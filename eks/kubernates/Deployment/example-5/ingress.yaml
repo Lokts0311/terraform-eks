@@ -1,0 +1,25 @@
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: example-5
+  name: myapp
+  annotations:
+    cert-manager.io/cluster-issuer: http-01-prodution # use HTTP-01 Challenge
+  spec:
+    ingressClassName: external-nginx # use nginx ingress controller
+    rules:
+    - host: www.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: myapp
+                port: 
+                  number: 8080
+    tls:
+      - hosts:
+          - www.example.com
+        secretName: www-example-com

@@ -1,0 +1,24 @@
+# https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/ingress/annotations/
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: example-3
+  name: myapp
+  annotations:
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+  spec:
+    ingressClassName: alb # use AWS Load Balancer Controller
+    rules:  # routing rule
+    - host: www.example.com # forward request from host to
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: myapp
+                port: 
+                  number: 8080

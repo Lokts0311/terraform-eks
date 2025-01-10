@@ -1,0 +1,15 @@
+# https://cert-manager.io/docs/configuration/acme/#configuration
+apiVersion: cert-manager.io/v1
+kind: ClusterIssuer # Getting certificate across all namespace
+metadata:
+  name: http-01-production # should be same value of cert-manager.io/cluster-issuer on ingress annotation
+spec:
+  acme:
+    email: user@example.com  # Get email warning if certificate fails to renew
+    server: https://acme-staging-v02.api.letsencrypt.org/directory
+    privateKeySecretRef:
+      name: example-issuer-account-key # Secret resource that will be used to store the account's private key.
+    solvers:
+      - http01:
+          ingress:
+            ingressClassName: external-nginx # use nginx ingress controller to resolve the challenge

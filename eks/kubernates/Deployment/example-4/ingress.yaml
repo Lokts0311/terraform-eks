@@ -1,0 +1,27 @@
+# https://kubernetes-sigs.github.io/aws-load-balancer-controller/v2.2/guide/ingress/annotations/
+
+apiVersion: networking.k8s.io/v1
+kind: Ingress
+metadata:
+  namespace: example-4
+  name: myapp
+  annotations:
+    alb.ingress.kubernetes.io/certificate-arn: my-AWS-ACM-certificate-ARN # arn of AWS ACM certificate
+    alb.ingress.kubernetes.io/listen-ports: '[{"HTTP": 80}, {"HTTPs": 443}]'
+    alb.ingress.kubernetes.io/ssl-redirect: "443" # redirect HTTP to HTTPS
+    alb.ingress.kubernetes.io/scheme: internet-facing
+    alb.ingress.kubernetes.io/target-type: ip
+    alb.ingress.kubernetes.io/healthcheck-path: /health
+  spec:
+    ingressClassName: alb # use AWS Load Balancer Controller
+    rules:
+    - host: www.example.com
+      http:
+        paths:
+          - path: /
+            pathType: Prefix
+            backend:
+              service:
+                name: myapp
+                port: 
+                  number: 8080

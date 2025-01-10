@@ -1,0 +1,17 @@
+# https://docs.aws.amazon.com/eks/latest/userguide/network-load-balancing.html#load-balancer-sample-application
+apiVersion: v1
+kind: Service
+metadata:
+  name: myapp
+  namespace: example-2
+  annotations: # use aws load balancer
+    service.beta.kubernetes.io/aws-load-balancer-type: external 
+    service.beta.kubernetes.io/aws-load-balancer-nlb-target-type: ip
+    service.beta.kubernetes.io/aws-load-balancer-scheme: internet-facing
+spec:
+  type: LoadBalancer
+  ports:
+    - port: 8080 # port that the service expose
+      targetPort: http # port which container is listening at
+  selector:
+    app: myapp # labels of pods with same value to the selector will belong to this service
